@@ -1,19 +1,19 @@
 # How to Add Your Project
 
-> **Step-by-step guide to submit your project to the VCET FOSS Directory**
+> **Step-by-step guide to submit your project to the ONLY FOSS ORG directory of college projects kept alive as open source**
 
 ## Tutorial Overview
 
-### Step 1: Follow the VCET FOSS Organization
+### Step 1: Follow the ONLY FOSS ORG Organization
 
 [video1.webm](https://github.com/user-attachments/assets/8b2664d0-81cd-4d9a-ae23-e93e65e06c7a)
 
 #### Instructions:
 
-1. Go to the [VCET FOSS Organization page](https://github.com/vcet-foss)
+1. Go to the [ONLY FOSS ORG Organization page](https://github.com/onlyfossorg)
 2. If you aren't already following, click the **"Follow"** button under the organization name.
 
-✅ **Checkpoint:** You'll stay updated with all FOSS activities at VCET!
+✅ **Checkpoint:** You'll stay updated with ONLY FOSS ORG activity!
 
 ---
 
@@ -22,7 +22,7 @@
 [video2.webm](https://github.com/user-attachments/assets/c06cfe93-45e6-49ae-a87c-088c31fb3252)
 #### Instructions:
 
-1. Go to the [awesome-foss repository](https://github.com/vcet-foss/awesome-foss)
+1. Go to the [awesome-foss repository](https://github.com/onlyfossorg/awesome-foss)
 2. If you haven't already, click the **"Star"** button at the top-right of the page.
 
 ✅ **Checkpoint:** This helps more people discover the directory!
@@ -35,7 +35,7 @@
 
 #### Instructions:
 
-1. Go to https://github.com/vcet-foss/awesome-foss
+1. Go to https://github.com/onlyfossorg/awesome-foss
 2. Click the **"Fork"** button in the top-right corner
 3. Wait for GitHub to create your copy
 
@@ -148,11 +148,11 @@ Paste the following template into the new file you just created:
 
 #### Instructions:
 
-1. Go back to the **original** repository: [vcet-foss/awesome-foss](https://github.com/vcet-foss/awesome-foss).
+1. Go back to the **original** repository: [onlyfossorg/awesome-foss](https://github.com/onlyfossorg/awesome-foss).
 2. You will likely see a yellow bar saying **"main had recent pushes"**. Click **"Compare & pull request"**.
 3. If not, go to the **"Pull requests"** tab and click **"New pull request"**.
 4. Click **"compare across forks"**.
-5. Ensure the "base" is `vcet-foss/awesome-foss` and "head" is `YOUR-USERNAME/awesome-foss`.
+5. Ensure the "base" is `onlyfossorg/awesome-foss` and "head" is `YOUR-USERNAME/awesome-foss`.
 6. Click **"Create pull request"**.
 
 ### Title Format:
@@ -188,7 +188,7 @@ Complete details for `project.json`:
 | `status`                   | string  | ✅       | Project state.                                                   | `"active"`, `"dormant"`, `"idea"`                 |
 | `difficulty`               | string  | ✅       | Contributor difficulty level.                                    | `"beginner"`, `"intermediate"`, `"advanced"`      |
 | `tech_stack`               | array   | ✅       | Technologies used. At least one required.                        | `["React", "Node.js", "Socket.io"]`               |
-| `github_repo`              | string  | ✅       | Full GitHub URL. Must start with `https://github.com/`           | `"https://github.com/vcet-foss/project"`          |
+| `github_repo`              | string  | ✅       | Full GitHub URL. Must start with `https://github.com/`           | `"https://github.com/onlyfossorg/project"`          |
 | `maintainers`              | array   | ✅       | At least one with `name` and `contact`.                          | `[{"name": "John", "contact": "john@email.com"}]` |
 | `looking_for_contributors` | boolean | ✅       | Whether you want contributors.                                   | `true` or `false`                                 |
 | `domain`                   | array   | ✅       | Project categories.                                              | `["Web"]`, `["AI/ML", "GenAI"]`                   |
@@ -203,10 +203,10 @@ Complete details for `project.json`:
 
 ## Need Help?
 
-- 💬 [GitHub Discussions](https://github.com/vcet-foss/awesome-foss/discussions) — Ask questions
-- 🐛 [GitHub Issues](https://github.com/vcet-foss/awesome-foss/issues) — Report problems
+- 💬 [GitHub Discussions](https://github.com/onlyfossorg/awesome-foss/discussions) — Ask questions
+- 🐛 [GitHub Issues](https://github.com/onlyfossorg/awesome-foss/issues) — Report problems
 - 📚 [CONTRIBUTING.md](CONTRIBUTING.md) — Learn about the repo structure
 
 ---
 
-**Every great project starts with a single commit. Welcome to VCET FOSS! 🚀**
+**Every great project starts with a single commit. Welcome to ONLY FOSS ORG! 🚀**

@@ -1,10 +1,10 @@
-# Contributing to VCET FOSS Directory
+# Contributing to the ONLY FOSS ORG Directory
 
-Welcome to the VCET FOSS Directory! This document explains how the repository works and provides guidelines for contributors and maintainers.
+Welcome to the ONLY FOSS ORG directory of college projects kept alive as open source. This document explains how the repository works and provides guidelines for contributors and maintainers.
 
 ## Want to Add Your Project?
 
-> **→ See [ADD_PROJECT.md](ADD_PROJECT.md) for step-by-step guide to submit your project to the VCET FOSS Directory**
+> **→ See [ADD_PROJECT.md](ADD_PROJECT.md) for a step-by-step guide to submit your project**
 
 ## Contents
 
@@ -17,7 +17,7 @@ Welcome to the VCET FOSS Directory! This document explains how the repository wo
 
 ## Who Can Contribute?
 
-**Anyone!** You don't need to be from VCET. If you have a FOSS project to share, you're welcome here.
+**Anyone!** If you have a college project to keep alive as open source, you're welcome here.
 
 ---
 
@@ -40,7 +40,7 @@ Welcome to the VCET FOSS Directory! This document explains how the repository wo
    ↓
 7. Build script generates dev/generated/projects.json
    ↓
-8. Website (vcet-foss.github.io) fetches and displays projects
+8. Website (onlyfossorg.github.io) fetches and displays projects
 ```
 
 ### Automated Validation
@@ -172,4 +172,4 @@ node dev/scripts/build-projects.js
 
 ---
 
-**Thank you for contributing to VCET FOSS! Together, we're building an amazing open-source community. 🚀**
+**Thank you for contributing to ONLY FOSS ORG! Together, we're keeping college projects alive as open source. 🚀**

@@ -1,18 +1,18 @@
 <p align="left">
   <picture>
-    <source 
-      media="(prefers-color-scheme: dark)" 
-      srcset="https://raw.githubusercontent.com/vcet-foss/branding/refs/heads/main/asset/svg/vcet-foss-light.svg">
-    <img 
-      src="https://raw.githubusercontent.com/vcet-foss/branding/refs/heads/main/asset/svg/vcet-foss-dark.svg" 
-      alt="VCET FOSS LOGO" 
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="https://raw.githubusercontent.com/onlyfossorg/branding/refs/heads/main/asset/svg/only-foss-light.svg">
+    <img
+      src="https://raw.githubusercontent.com/onlyfossorg/branding/refs/heads/main/asset/svg/only-foss-dark.svg"
+      alt="ONLY FOSS ORG logo"
       width="150">
   </picture><br>
 </p>
 
 # Awesome FOSS [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)
 
-> A curated directory of open-source projects built by VCET students.
+> A directory of college projects kept alive as open source.
 
 Want to add your project? See [ADD_PROJECT.md](ADD_PROJECT.md).
 
