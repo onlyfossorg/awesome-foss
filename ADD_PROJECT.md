@@ -1,14 +1,28 @@
 # How to Add Your Project
 
-> **Step-by-step guide to submit your project to the ONLY FOSS ORG directory of college projects kept alive as open source**
+> **Step-by-step CLI guide to submit your project to the ONLY FOSS ORG directory of college projects kept alive as open source**
+
+You will add two files under `projects/<slug>/` (`project.json` and `README.md`), then open a pull request.
+
+## Before You Start
+
+Your **project's own GitHub repository** (the one you list in `github_repo`) must already include these files at the repo root:
+
+| File | Purpose |
+| ---- | ------- |
+| `README.md` | Describes the project, setup, and usage |
+| `CONTRIBUTING.md` | Explains how others can contribute |
+| `LICENSE.md` | States the open-source license (a root `LICENSE` file is also acceptable) |
+
+Do not open a PR here until those files are present and valid in your project repo. Maintainers will reject submissions that are missing them.
+
+✅ **Checkpoint:** Your project repo has `README.md`, `CONTRIBUTING.md`, and `LICENSE.md` (or `LICENSE`).
+
+---
 
 ## Tutorial Overview
 
 ### Step 1: Follow the ONLY FOSS ORG Organization
-
-[video1.webm](https://github.com/user-attachments/assets/8b2664d0-81cd-4d9a-ae23-e93e65e06c7a)
-
-#### Instructions:
 
 1. Go to the [ONLY FOSS ORG Organization page](https://github.com/onlyfossorg)
 2. If you aren't already following, click the **"Follow"** button under the organization name.
@@ -19,9 +33,6 @@
 
 ### Step 2: Star the Repository
 
-[video2.webm](https://github.com/user-attachments/assets/c06cfe93-45e6-49ae-a87c-088c31fb3252)
-#### Instructions:
-
 1. Go to the [awesome-foss repository](https://github.com/onlyfossorg/awesome-foss)
 2. If you haven't already, click the **"Star"** button at the top-right of the page.
 
@@ -29,34 +40,29 @@
 
 ---
 
-### Step 3: Fork the Repository
+### Step 3: Fork and Clone
 
-[video3.webm](https://github.com/user-attachments/assets/6c099dcc-04b4-4a24-b718-290730ba9a8f)
+With the [GitHub CLI](https://cli.github.com/) installed and authenticated (`gh auth login`):
 
-#### Instructions:
+```bash
+gh repo fork onlyfossorg/awesome-foss --clone
+cd awesome-foss
+```
 
-1. Go to https://github.com/onlyfossorg/awesome-foss
-2. Click the **"Fork"** button in the top-right corner
-3. Wait for GitHub to create your copy
+If you prefer to fork in the browser first, then clone your copy:
 
-✅ **Checkpoint:** You should now see `YOUR-USERNAME/awesome-foss` in your repositories.
+```bash
+git clone https://github.com/YOUR-USERNAME/awesome-foss.git
+cd awesome-foss
+```
 
----
-
-### Step 4: Access Your Fork
-
-#### Instructions:
-
-1. Go to your GitHub profile.
-2. Open the **awesome-foss** repository you just forked (it will be `YOUR-USERNAME/awesome-foss`).
-
-✅ **Checkpoint:** You are now on your own copy of the project where you can make changes.
+✅ **Checkpoint:** You have a local clone of your fork.
 
 ---
 
-### Step 5: Choose Your Project Slug
+### Step 4: Choose Your Project Slug
 
-Your **slug** is your project's unique identifier.
+Your **slug** is your project's unique identifier. You will use it as the folder name, the `slug` field in `project.json`, and the git branch name.
 
 ### Rules:
 
@@ -72,30 +78,29 @@ Your **slug** is your project's unique identifier.
 | `ai-chatbot`     | `AI-CHATBOT`    |
 | `student-portal` | `StudentPortal` |
 
-💡 **Write down your slug — you'll need it in the next step!**
+💡 **Write down your slug — you'll need it in the next steps!**
+
+---
+
+### Step 5: Create a Branch
+
+Replace `your-project-slug` with your actual slug:
+
+```bash
+git checkout -b add-your-project-slug
+```
+
+✅ **Checkpoint:** You are on a dedicated branch for this project.
 
 ---
 
 ### Step 6: Create Your Project Folder & Files
 
-[video4.webm](https://github.com/user-attachments/assets/afe8be8a-0335-4d66-ace4-5aa2131db356)
+```bash
+mkdir -p projects/your-project-slug
+```
 
-#### Instructions:
-
-1. Inside your fork, navigate to the `projects/` folder.
-2. Click the **"Add file"** button and select **"Create new file"**.
-3. In the filename box, type: `your-project-slug/project.json` (replace `your-project-slug` with your actual slug).
-   - _Note: Typing the `/` after the slug automatically creates the folder!_
-
----
-
-### Step 7: Fill in project.json
-
-[video5.webm](https://github.com/user-attachments/assets/20a2cfc2-0912-4bcc-81fe-a9c96ea6cd7c)
-
-#### Instructions:
-
-Paste the following template into the new file you just created:
+Create `projects/your-project-slug/project.json` with this template, then fill in your project details:
 
 ```json
 {
@@ -118,42 +123,59 @@ Paste the following template into the new file you just created:
 }
 ```
 
-1. **Customize** the fields to match your project.
-2. Scroll down to **"Commit changes..."**.
-3. Enter a commit message like `Add project.json` and click **"Commit changes"**.
+Create `projects/your-project-slug/README.md` with:
 
-✅ **Checkpoint:** You have successfully created your project folder and metadata file.
+- What the project is
+- Tech stack
+- How to run it
+
+The `slug` in `project.json` must match the folder name.
+
+✅ **Checkpoint:** Your project folder contains both required files.
 
 ---
 
-### Step 8: Add README.md
+### Step 7: Validate Locally (Recommended)
 
-[video6.webm](https://github.com/user-attachments/assets/0a035bce-fbe0-4b20-8a7e-6eef36021bcf)
+From the repository root:
 
-#### Instructions:
+```bash
+node dev/scripts/build-projects.js
+```
 
-1. Navigate back to your folder: `projects/your-project-slug/`.
-2. Click **"Add file"** → **"Create new file"**.
-3. Name it `README.md`.
-4. Add your project details (What it is, Tech stack, How to run it).
-5. Scroll down and click **"Commit changes"**.
+This checks `project.json` against the schema and confirms the folder name matches the slug.
 
-✅ **Checkpoint:** Your project folder now contains both required files.
+✅ **Checkpoint:** The build script completes without errors.
+
+---
+
+### Step 8: Commit and Push
+
+```bash
+git add projects/your-project-slug/
+git commit -m "Add project: Your Project Name"
+git push -u origin HEAD
+```
+
+Do not edit `dev/generated/projects.json` or the project list in `README.md` — those are generated after merge.
+
+✅ **Checkpoint:** Your branch is on GitHub.
 
 ---
 
 ### Step 9: Open a Pull Request
 
-[video7.webm](https://github.com/user-attachments/assets/7e609f3b-822f-4cd6-adf6-0e863ad6c241)
+```bash
+gh pr create --repo onlyfossorg/awesome-foss --title "Add project: Your Project Name" --body "$(cat <<'EOF'
+- [x] Project repo has `README.md`, `CONTRIBUTING.md`, and `LICENSE.md` (or `LICENSE`)
+- [x] `project.json` added
+- [x] `README.md` included in `projects/<slug>/`
+- [x] Folder name matches slug
+EOF
+)"
+```
 
-#### Instructions:
-
-1. Go back to the **original** repository: [onlyfossorg/awesome-foss](https://github.com/onlyfossorg/awesome-foss).
-2. You will likely see a yellow bar saying **"main had recent pushes"**. Click **"Compare & pull request"**.
-3. If not, go to the **"Pull requests"** tab and click **"New pull request"**.
-4. Click **"compare across forks"**.
-5. Ensure the "base" is `onlyfossorg/awesome-foss` and "head" is `YOUR-USERNAME/awesome-foss`.
-6. Click **"Create pull request"**.
+After pushing, you can also open the PR from GitHub: visit [onlyfossorg/awesome-foss](https://github.com/onlyfossorg/awesome-foss) and use **Compare & pull request**.
 
 ### Title Format:
 
@@ -166,8 +188,9 @@ Add project: Your Project Name
 Briefly describe your project and check the boxes:
 
 ```
+- [x] Project repo has `README.md`, `CONTRIBUTING.md`, and `LICENSE.md` (or `LICENSE`)
 - [x] `project.json` added
-- [x] `README.md` included
+- [x] `README.md` included in `projects/<slug>/`
 - [x] Folder name matches slug
 ```
 
