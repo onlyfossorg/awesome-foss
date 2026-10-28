@@ -1,0 +1,24 @@
+slug: tamx
+name: TAMX
+tagline: A ESP32 handheld inspired by the classic Tamagotchi form factor.
+description: >
+  A pocket-sized ESP32 handheld — Wi-Fi tools, scientific calculator, AI chat, games, and a PowerPoint remote. Inspired by the classic Tamagotchi form factor.
+status: active
+difficulty: intermediate
+
+tech_stack:
+  - ESP32
+  - Arduino
+  - C++
+
+github_repo: https://github.com/riteshgharat/tamx
+
+maintainers:
+  - name: Ritesh Gharat
+    contact: https://github.com/riteshgharat
+
+looking_for_contributors: true
+
+domain:
+  - Tools
+  - IoT/Embedded
