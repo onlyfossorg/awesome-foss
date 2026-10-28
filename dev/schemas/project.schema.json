@@ -41,7 +41,7 @@
     },
     "status": {
       "type": "string",
-      "enum": ["active", "dormant", "idea"],
+      "enum": ["active", "idea"],
       "description": "Current project status"
     },
     "difficulty": {
@@ -89,7 +89,20 @@
       "type": "array",
       "items": {
         "type": "string",
-        "enum": ["Web", "AI/ML", "GenAI", "Blockchain", "IoT/Embedded"]
+        "enum": [
+          "Web",
+          "AI/ML",
+          "GenAI",
+          "Tools",
+          "IoT/Embedded",
+          "Blockchain",
+          "Mobile",
+          "Cybersecurity",
+          "Cloud/DevOps",
+          "Data/Analytics",
+          "Game Dev",
+          "Systems"
+        ]
       },
       "uniqueItems": true,
       "description": "Project domain/category tags"
