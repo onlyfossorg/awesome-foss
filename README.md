@@ -16,21 +16,14 @@
 
 Want to add your project? See [ADD_PROJECT.md](ADD_PROJECT.md).
 
-Want to contribute repo? See [CONTRIBUTING.md](CONTRIBUTING.md).
-
 ## Projects
 
 <!-- PROJECTS:START - Do not remove or modify this section -->
 
 ### Active
 
-- [ATOM8: AI-Powered Data Structurizer & Insights Platform](https://github.com/riteshgharat/atom8) — AI platform for structuring messy and scattered data.
 - [LAN Share App](https://github.com/riteshgharat/lan-share-app) — A peer-to-peer file sharing app for local networks.
 - [LanView CLI](https://github.com/PrashantDhuri08/lanview-cli) — Instantly preview full-stack web applications on your mobile device over local Wi-Fi..
-
-### Dormant
-
-_No dormant projects yet. Let's keep it that way_ 💪
 <!-- PROJECTS:END -->
 
 ---

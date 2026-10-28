@@ -14,30 +14,43 @@ on:
 
 jobs:
   validate-and-build:
-    name: Validate & Build projects.json
+    name: Validate Projects
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Validate and build projects.json
+      # For Pull Requests: validate schemas and slugs only
+      - name: Validate projects (PR)
+        if: github.event_name == 'pull_request'
+        run: node dev/scripts/build-projects.js --validate-only
+
+      # For Push to main: compile projects.json and update README.md
+      - name: Build projects.json & update README (main)
+        if: github.event_name == 'push'
         run: node dev/scripts/build-projects.js
 
-      - name: Check for uncommitted changes to generated/
+      - name: Commit and push changes if generated files changed
+        if: github.event_name == 'push'
         run: |
-          git diff --exit-code dev/generated/ || {
-            echo ""
-            echo "❌ dev/generated/projects.json is out of date!"
-            echo "   Run 'node dev/scripts/build-projects.js' locally and commit the result."
-            echo ""
-            exit 1
-          }
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain dev/generated/ README.md)" ]; then
+            git add dev/generated/ README.md
+            git commit -m "chore: auto-update projects catalog [skip ci]"
+            git push
+          fi
 
       - name: Upload projects.json artifact
         if: success()

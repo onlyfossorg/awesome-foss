@@ -8,11 +8,14 @@
 // Usage:  node dev/scripts/build-projects.js
 // Exit 0 = success, Exit 1 = validation errors
 
-const { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync } = require("node:fs");
+const { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync } = require("node:fs");
 const { join, resolve } = require("node:path");
 
 // ROOT = awesome-foss/ (two levels up from dev/scripts/)
 const ROOT = resolve(__dirname, "..", "..");
+
+// ── Load YAML parser (vendored zero-dependency UMD) ──────────────────────────
+const yaml = require(join(ROOT, "dev", "scripts", "vendor", "js-yaml.min.js"));
 
 // ── Load schema ──────────────────────────────────────────────────────────────
 const schema = JSON.parse(
@@ -21,7 +24,7 @@ const schema = JSON.parse(
 
 // ── Validators ───────────────────────────────────────────────────────────────
 
-function validateProject(project, folderName) {
+function validateProject(project, expectedSlug) {
   const errors = [];
 
   // Check required fields
@@ -42,9 +45,9 @@ function validateProject(project, folderName) {
   if (errors.length > 0) return errors; // early exit — can't validate further
 
   // slug must match folder name
-  if (project.slug !== folderName) {
+  if (project.slug !== expectedSlug) {
     errors.push(
-      `Slug "${project.slug}" does not match folder name "${folderName}"`
+      `Slug "${project.slug}" does not match file or folder name "${expectedSlug}"`
     );
   }
 
@@ -132,7 +135,20 @@ function validateProject(project, folderName) {
     if (!Array.isArray(project.domain)) {
       errors.push(`"domain" must be an array`);
     } else {
-      const validDomains = ["Web", "AI/ML", "GenAI", "Blockchain", "IoT/Embedded"];
+      const validDomains = [
+        "Web",
+        "AI/ML",
+        "GenAI",
+        "Tools",
+        "IoT/Embedded",
+        "Blockchain",
+        "Mobile",
+        "Cybersecurity",
+        "Cloud/DevOps",
+        "Data/Analytics",
+        "Game Dev",
+        "Systems",
+      ];
       for (const d of project.domain) {
         if (typeof d !== "string") {
           errors.push(`Each item in "domain" must be a string`);
@@ -159,71 +175,142 @@ function main() {
   const outputDir = join(ROOT, "dev", "generated");
   const outputFile = join(outputDir, "projects.json");
 
-  let folders;
+  let entries;
   try {
-    folders = readdirSync(projectsDir).filter((name) =>
-      statSync(join(projectsDir, name)).isDirectory()
-    );
+    entries = readdirSync(projectsDir);
   } catch {
-    console.error("❌ Could not read projects/ directory");
+    console.error("[ERROR] Could not read projects/ directory");
     process.exit(1);
   }
 
-  if (folders.length === 0) {
-    console.error("❌ No project folders found in projects/");
+  const targets = [];
+  for (const entry of entries) {
+    const fullPath = join(projectsDir, entry);
+    let stat;
+    try {
+      stat = statSync(fullPath);
+    } catch {
+      continue;
+    }
+
+    if (stat.isDirectory()) {
+      const candidates = [
+        { file: "project.json", format: "json" },
+        { file: "project.yml", format: "yaml" },
+        { file: "project.yaml", format: "yaml" },
+      ];
+      for (const c of candidates) {
+        const candidatePath = join(fullPath, c.file);
+        if (existsSync(candidatePath)) {
+          targets.push({
+            slug: entry,
+            format: c.format,
+            jsonPath: candidatePath,
+            display: `${entry}/${c.file}`,
+          });
+          break;
+        }
+      }
+    } else if (stat.isFile()) {
+      if (entry.endsWith(".json")) {
+        targets.push({
+          slug: entry.slice(0, -5),
+          format: "json",
+          jsonPath: fullPath,
+          display: entry,
+        });
+      } else if (entry.endsWith(".yml")) {
+        targets.push({
+          slug: entry.slice(0, -4),
+          format: "yaml",
+          jsonPath: fullPath,
+          display: entry,
+        });
+      } else if (entry.endsWith(".yaml")) {
+        targets.push({
+          slug: entry.slice(0, -5),
+          format: "yaml",
+          jsonPath: fullPath,
+          display: entry,
+        });
+      }
+    }
+  }
+
+  if (targets.length === 0) {
+    console.error("[ERROR] No projects found in projects/ (expected projects/<slug>.json or projects/<slug>.yml)");
     process.exit(1);
   }
 
-  console.log(`\n📦 Found ${folders.length} project(s)\n`);
+  // Sort alphabetically by slug
+  targets.sort((a, b) => a.slug.localeCompare(b.slug));
+
+  console.log(`\nFound ${targets.length} project(s)\n`);
 
   let hasErrors = false;
   const allProjects = [];
+  const seenSlugs = new Set();
 
-  for (const folder of folders.sort()) {
-    const jsonPath = join(projectsDir, folder, "project.json");
-    console.log(`  → ${folder}/project.json`);
+  for (const item of targets) {
+    console.log(`  -> ${item.display}`);
+
+    if (seenSlugs.has(item.slug)) {
+      console.error(`    [ERROR] Duplicate project slug found: "${item.slug}"\n`);
+      hasErrors = true;
+      continue;
+    }
+    seenSlugs.add(item.slug);
 
     let raw;
     try {
-      raw = readFileSync(jsonPath, "utf-8");
+      raw = readFileSync(item.jsonPath, "utf-8");
     } catch {
-      console.error(`    ❌ Missing project.json\n`);
+      console.error(`    [ERROR] Could not read ${item.display}\n`);
       hasErrors = true;
       continue;
     }
 
     let project;
     try {
-      project = JSON.parse(raw);
+      if (item.format === "yaml") {
+        project = yaml.load(raw);
+      } else {
+        project = JSON.parse(raw);
+      }
     } catch (e) {
-      console.error(`    ❌ Invalid JSON: ${e.message}\n`);
+      console.error(`    [ERROR] Invalid ${item.format.toUpperCase()}: ${e.message}\n`);
       hasErrors = true;
       continue;
     }
 
-    const errors = validateProject(project, folder);
+    const errors = validateProject(project, item.slug);
     if (errors.length > 0) {
       hasErrors = true;
       for (const err of errors) {
-        console.error(`    ❌ ${err}`);
+        console.error(`    [ERROR] ${err}`);
       }
       console.log();
     } else {
-      console.log(`    ✅ Valid\n`);
+      console.log(`    [OK] Valid\n`);
       allProjects.push(project);
     }
   }
 
   if (hasErrors) {
-    console.error("❌ Validation failed. Fix the errors above and try again.\n");
+    console.error("[ERROR] Validation failed. Fix the errors above and try again.\n");
     process.exit(1);
+  }
+
+  if (process.argv.includes("--validate-only")) {
+    console.log(`[SUCCESS] Validation successful: all ${allProjects.length} project(s) are valid.\n`);
+    process.exit(0);
   }
 
   // Write projects.json
   mkdirSync(outputDir, { recursive: true });
   writeFileSync(outputFile, JSON.stringify(allProjects, null, 2) + "\n");
 
-  console.log(`✅ Generated ${outputFile}`);
+  console.log(`[SUCCESS] Generated ${outputFile}`);
   console.log(`   ${allProjects.length} project(s) written\n`);
 
   // Update README.md project list
@@ -243,7 +330,7 @@ function updateReadme(projects) {
   try {
     readme = readFileSync(readmePath, "utf-8");
   } catch {
-    console.log("⚠️  No README.md found, skipping project list update");
+    console.log("[WARN] No README.md found, skipping project list update");
     return;
   }
 
@@ -254,12 +341,12 @@ function updateReadme(projects) {
   const endIdx = readme.indexOf(endMarker);
 
   if (startIdx === -1 || endIdx === -1) {
-    console.log("⚠️  README.md missing PROJECTS markers, skipping update");
+    console.log("[WARN] README.md missing PROJECTS markers, skipping update");
     return;
   }
 
   // Group by status, sort alphabetically within each group
-  const groups = { active: [], idea: [], dormant: [] };
+  const groups = { active: [], idea: [] };
   for (const p of projects) {
     if (groups[p.status]) groups[p.status].push(p);
   }
@@ -285,24 +372,12 @@ function updateReadme(projects) {
     lines.push("");
   }
 
-  if (groups.dormant.length > 0) {
-    lines.push("### Dormant");
-    lines.push("");
-    for (const p of groups.dormant) lines.push(formatProjectLine(p));
-    lines.push("");
-  } else {
-    lines.push("### Dormant");
-    lines.push("");
-    lines.push("_No dormant projects yet. Let's keep it that way_ 💪");
-    lines.push("");
-  }
-
   const newSection = startMarker + "\n" + lines.join("\n") + endMarker;
   const updatedReadme =
     readme.substring(0, startIdx) + newSection + readme.substring(endIdx + endMarker.length);
 
   writeFileSync(readmePath, updatedReadme);
-  console.log("✅ Updated README.md project list\n");
+  console.log("[SUCCESS] Updated README.md project list\n");
 }
 
 main();
