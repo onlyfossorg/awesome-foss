@@ -6,11 +6,13 @@ on:
     paths:
       - "projects/**"
       - "dev/**"
+      - ".github/workflows/**"
   push:
     branches: [main]
     paths:
       - "projects/**"
       - "dev/**"
+      - ".github/workflows/**"
 
 jobs:
   validate-and-build:
@@ -31,18 +33,12 @@ jobs:
         with:
           node-version: "20"
 
-      # For Pull Requests: validate schemas and slugs only
-      - name: Validate projects (PR)
-        if: github.event_name == 'pull_request'
-        run: node dev/scripts/build-projects.js --validate-only
-
-      # For Push to main: compile projects.json and update README.md
-      - name: Build projects.json & update README (main)
-        if: github.event_name == 'push'
+      # Validate schemas and slugs, compile projects.json and update README.md
+      - name: Validate & build projects
         run: node dev/scripts/build-projects.js
 
       - name: Commit and push changes if generated files changed
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

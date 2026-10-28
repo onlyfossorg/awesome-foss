@@ -24,6 +24,7 @@ Want to add your project? See [ADD_PROJECT.md](ADD_PROJECT.md).
 
 - [LAN Share App](https://github.com/riteshgharat/lan-share-app) — A peer-to-peer file sharing app for local networks.
 - [LanView CLI](https://github.com/PrashantDhuri08/lanview-cli) — Instantly preview full-stack web applications on your mobile device over local Wi-Fi..
+- [TMAX](https://github.com/riteshgharat/tmax) — A ESP32 handheld inspired by the classic Tamagotchi form factor..
 <!-- PROJECTS:END -->
 
 ---
