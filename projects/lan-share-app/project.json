@@ -1,0 +1,22 @@
+{
+  "slug": "lan-share-app",
+  "name": "LAN Share App",
+  "tagline": "A peer-to-peer file sharing app for local networks",
+  "description": "A peer-to-peer file sharing app for local networks. It allows users to share files with others in their local network.",
+  "status": "active",
+  "difficulty": "beginner",
+  "tech_stack": ["React", "Node.js", "Socket.io"],
+  "github_repo": "https://github.com/riteshgharat/lan-share-app",
+  "maintainers": [
+    {
+      "name": "Ritesh Gharat",
+      "contact": "https://github.com/riteshgharat"
+    },
+     {
+      "name": "Prashant Dhuri",
+      "contact": "https://github.com/PrashantDhuri08"
+    }
+  ],
+  "looking_for_contributors": true,
+  "domain": ["Web", "Tools"]
+}

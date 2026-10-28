@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ONLY FOSS ORG Project",
+  "description": "Schema for a project registered in awesome-foss",
+  "type": "object",
+  "required": [
+    "slug",
+    "name",
+    "tagline",
+    "description",
+    "status",
+    "difficulty",
+    "tech_stack",
+    "github_repo",
+    "maintainers",
+    "looking_for_contributors"
+  ],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "description": "URL-friendly identifier, must match the folder name"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "description": "Human-readable project name"
+    },
+    "tagline": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 150,
+      "description": "One-line summary of the project"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Detailed description of the project"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "idea"],
+      "description": "Current project status"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["beginner", "intermediate", "advanced"],
+      "description": "Contribution difficulty level"
+    },
+    "tech_stack": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Technologies used in the project"
+    },
+    "github_repo": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://github\\.com/",
+      "description": "GitHub repository URL"
+    },
+    "maintainers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "contact"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "contact": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "Project maintainers"
+    },
+    "looking_for_contributors": {
+      "type": "boolean",
+      "description": "Whether the project is actively looking for contributors"
+    },
+    "domain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "Web",
+          "AI/ML",
+          "GenAI",
+          "Tools",
+          "IoT/Embedded",
+          "Blockchain",
+          "Mobile",
+          "Cybersecurity",
+          "Cloud/DevOps",
+          "Data/Analytics",
+          "Game Dev",
+          "Systems"
+        ]
+      },
+      "uniqueItems": true,
+      "description": "Project domain/category tags"
+    }
+  },
+  "additionalProperties": false
+}
