@@ -1,0 +1,29 @@
+{
+  "slug": "lanview-cli",
+  "name": "LanView CLI",
+  "tagline": "Instantly preview full-stack web applications on your mobile device over local Wi-Fi.",
+  "description": "LanView CLI is an open-source, zero-config developer tool that exposes full-stack web applications to devices on the same LAN through a unified local gateway and terminal-generated QR code. It automatically discovers the host IP, proxies frontend and backend services through a single port, eliminates localhost and CORS issues, supports WebSockets/HMR, and includes a static file server with live reload.",
+  "status": "active",
+  "difficulty": "intermediate",
+  "tech_stack": [
+    "Node.js",
+    "JavaScript",
+    "Express",
+    "HTTP Proxy",
+    "WebSockets",
+    "CLI",
+    "QR Code Generation"
+  ],
+  "github_repo": "https://github.com/PrashantDhuri08/lanview-cli",
+  "maintainers": [
+    {
+      "name": "Prashant Dhuri",
+      "contact": "prashantdhuripd6@gmail.com"
+    }
+  ],
+  "looking_for_contributors": true,
+  "domain": [
+    "Web"
+    
+  ]
+}
