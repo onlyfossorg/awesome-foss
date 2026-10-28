@@ -1,0 +1,56 @@
+name: Validate Projects
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "projects/**"
+      - "dev/**"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+    paths:
+      - "projects/**"
+      - "dev/**"
+      - ".github/workflows/**"
+
+jobs:
+  validate-and-build:
+    name: Validate Projects
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Validate schemas and slugs, compile projects.json and update README.md
+      - name: Validate & build projects
+        run: node dev/scripts/build-projects.js
+
+      - name: Commit and push changes if generated files changed
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain dev/generated/ README.md)" ]; then
+            git add dev/generated/ README.md
+            git commit -m "chore: auto-update projects catalog [skip ci]"
+            git push
+          fi
+
+      - name: Upload projects.json artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: projects-json
+          path: dev/generated/projects.json
