@@ -26,6 +26,7 @@ Want to contribute repo? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - [ATOM8: AI-Powered Data Structurizer & Insights Platform](https://github.com/riteshgharat/atom8) — AI platform for structuring messy and scattered data.
 - [LAN Share App](https://github.com/riteshgharat/lan-share-app) — A peer-to-peer file sharing app for local networks.
+- [LanView CLI](https://github.com/PrashantDhuri08/lanview-cli) — Instantly preview full-stack web applications on your mobile device over local Wi-Fi..
 
 ### Dormant
 
